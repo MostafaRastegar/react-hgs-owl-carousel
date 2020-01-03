@@ -4,16 +4,17 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'owl.carousel';
 
-function App(props) {
+function MrOwl(props) {
   const {
     id = 'demo',
     options = null,
   } = props;
 
   const owl = (id) => $(`#${id}`);
-
+  let owlContainer = null;
+  
   useEffect(() => {
-    owl(id).owlCarousel(options);
+    owlContainer = owl(id).owlCarousel(options);
   }, [id, options]);
 
   const next = (speed) => {
@@ -70,11 +71,68 @@ function App(props) {
     owl(id).trigger('stop.owl.autoplay');
   }
 
+  const changed = (func) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (owlContainer !== null) {
+      owlContainer.on('changed.owl.carousel', func);
+    }
+  }
+
+  const change = (func) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (owlContainer !== null) {
+      owlContainer.on('change.owl.carousel', func);
+    }
+  }
+
+  const refresh = (event, speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof event !== 'undefined' && typeof speed === 'number') {
+      owl(id).trigger('refresh.owl.carousel', [event, speed]);
+    }
+    else {
+      owl(id).trigger('refresh.owl.carousel');
+    }
+  }
+
+  const replace = (data) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof data === 'string') {
+      owl(id).trigger('replace.owl.carousel', data);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
+  const add = (data, position) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof data === 'string' && typeof position === 'number') {
+      owl(id).trigger('add.owl.carousel', [data, position]);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
+  const remove = (position) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof position === 'number') {
+      owl(id).trigger('remove.owl.carousel', position);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
   const Slider = (props) => {
     const {
       className = 'owl-carousel owl-theme',
     } = props;
-    return <div className="App">
+    return <div className="main-slider">
       <div id={id} className={className}>
         {props.children}
       </div>
@@ -82,14 +140,20 @@ function App(props) {
   }
 
   return {
-    Slider,
     next,
     prev,
     to,
     destroy,
     play,
-    stop
+    stop,
+    changed,
+    change,
+    refresh,
+    replace,
+    add,
+    remove,
+    Slider,
   };
 }
 
-export default App;
+export default MrOwl;

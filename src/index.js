@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './mrOwl.css';
 import mrOwl from './mrOwl';
@@ -25,10 +25,19 @@ const MainSlider = () => {
         }
       },
       onDragged: () => console.log('onDragged'),
+      onInitialize: () => console.log('initialize'),
+      onInitialized: () => console.log('initialized'),
+      onResize: () => console.log('onResize'),
+      onTranslate: () => console.log('onTranslate'),
+      onTranslated: () => console.log('onTranslated'),
     },
   };
 
-  const { Slider, next, prev } = mrOwl(config);
+  const { Slider, next, prev, changed,refresh,remove, add} = mrOwl(config);
+
+  useEffect(()=>{
+    changed((e)=> console.log(e.item.index))
+  },[changed])
 
   return (
     <div>
@@ -46,7 +55,7 @@ const MainSlider = () => {
         <div className="item"><h4>11</h4></div>
         <div className="item"><h4>12</h4></div>
       </Slider>
-      <button onClick={() => next(1000)} className="customNextBtn salam">custom next</button>
+      <button onClick={() =>{add('<div class="item"><h4>222</h4></div>',1)}} className="customNextBtn">custom next</button>
       <button onClick={() => prev(1000)} className="customNextBtn salam">custon prev</button>
     </div>
   )
