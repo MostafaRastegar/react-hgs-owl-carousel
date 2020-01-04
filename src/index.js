@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './mrOwl.css';
-import mrOwl from './mrOwl';
+import mrOwl from './components';
 
 
 const MainSlider = () => {

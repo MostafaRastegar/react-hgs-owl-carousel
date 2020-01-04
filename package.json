@@ -1,7 +1,7 @@
 {
-  "name": "custom-slider",
-  "version": "0.1.0",
-  "private": true,
+  "name": "react-hgs-owl-carousel",
+  "version": "0.2.0",
+  "private": false,
   "dependencies": {
     "@babel/core": "7.7.4",
     "@svgr/webpack": "4.3.3",
@@ -66,7 +66,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "publish:npm": "rm -rf dist && mkdir dist &&  babel ./src/components --presets minify -d dist --copy-files"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -135,7 +136,14 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "@babel/preset-react",
+      "minify"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "babel-minify": "^0.5.1",
+    "babel-preset-minify": "^0.5.1"
   }
 }

@@ -1,0 +1,1 @@
+{"version":3,"sources":["mrOwl.css"],"names":[],"mappings":"AAAA,MACE,UAAU,CACV,gBAAgB,CAChB,aACF,CACA,yBACE,YAAa,CACb,kBAAmB,CACnB,YACF","file":"main.df454bb6.chunk.css","sourcesContent":["#demo{\n  width:100%;\n  max-width:1000px;\n  margin: 0 auto;\n}\n#demo.owl-carousel .item {\n  height: 10rem;\n  background: #4DC7A0;\n  padding: 1rem;\n}"]}
