@@ -23,7 +23,9 @@ plugins: [
 you can use html script tag to inject jquery as well.
 
 ### 2. Set up your component
-wrap your divs inside the OwlCarousel component
+add owl-carousel config to owlCarousel function.
+for use more option please read owlcarousel docs
+[Owl Carousel 2.3](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html)
 
 ```jsx
 import React from 'react';
