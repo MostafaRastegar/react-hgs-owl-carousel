@@ -1,64 +1,159 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import './mrOwl.css';
-import mrOwl from './components';
+import $ from "jquery";
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import 'owl.carousel';
 
+function OwlCarousel(props) {
+  const {
+    id = 'demo',
+    options = null,
+  } = props;
 
-const MainSlider = () => {
+  const owl = (id) => $(`#${id}`);
+  let owlContainer = null;
+  
+  useEffect(() => {
+    owlContainer = owl(id).owlCarousel(options);
+  }, [id, options]);
 
-  const config = {
-    id: 'demo',
-    options: {
-      loop: true,
-      margin: 10,
-      nav: true,
-      rtl: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 3
-        },
-        1000: {
-          items: 5
-        }
-      },
-      onDragged: () => console.log('onDragged'),
-      onInitialize: () => console.log('initialize'),
-      onInitialized: () => console.log('initialized'),
-      onResize: () => console.log('onResize'),
-      onTranslate: () => console.log('onTranslate'),
-      onTranslated: () => console.log('onTranslated'),
-    },
-  };
+  const next = (speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof speed === 'number') {
+      owl(id).trigger('next.owl.carousel', [speed]);
+    }
+    else {
+      owl(id).trigger('next.owl.carousel', speed);
+    }
+  }
 
-  const { Slider, next, prev, changed,refresh,remove, add} = mrOwl(config);
+  const prev = (speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
 
-  useEffect(()=>{
-    changed((e)=> console.log(e.item.index))
-  },[changed])
+    if (typeof speed === 'number') {
+      owl(id).trigger('prev.owl.carousel', [speed]);
+    }
+    else {
+      owl(id).trigger('prev.owl.carousel', speed);
+    }
+  }
 
-  return (
-    <div>
-      <Slider>
-        <div className="item"><h4>1</h4></div>
-        <div className="item"><h4>2</h4></div>
-        <div className="item"><h4>3</h4></div>
-        <div className="item"><h4>4</h4></div>
-        <div className="item"><h4>5</h4></div>
-        <div className="item"><h4>6</h4></div>
-        <div className="item"><h4>7</h4></div>
-        <div className="item"><h4>8</h4></div>
-        <div className="item"><h4>9</h4></div>
-        <div className="item"><h4>10</h4></div>
-        <div className="item"><h4>11</h4></div>
-        <div className="item"><h4>12</h4></div>
-      </Slider>
-      <button onClick={() =>{add('<div class="item"><h4>222</h4></div>',1)}} className="customNextBtn">custom next</button>
-      <button onClick={() => prev(1000)} className="customNextBtn salam">custon prev</button>
+  const to = (position, speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+
+    if (typeof position === 'number' && typeof speed === 'number') {
+      owl(id).trigger('to.owl.carousel', [position, speed]);
+    }
+    else {
+      owl(id).trigger('to.owl.carousel');
+    }
+  }
+
+  const destroy = () => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+
+    owl(id).trigger('destroy.owl.carousel');
+  }
+
+  const play = (timeout, speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+
+    if (typeof timeout === 'number' && typeof speed === 'number') {
+      owl(id).trigger('play.owl.autoplay', [timeout, speed]);
+    }
+    else {
+      owl(id).trigger('play.owl.autoplay');
+    }
+  }
+
+  const stop = () => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    owl(id).trigger('stop.owl.autoplay');
+  }
+
+  const changed = (func) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (owlContainer !== null) {
+      owlContainer.on('changed.owl.carousel', func);
+    }
+  }
+
+  const change = (func) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (owlContainer !== null) {
+      owlContainer.on('change.owl.carousel', func);
+    }
+  }
+
+  const refresh = (event, speed) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof event !== 'undefined' && typeof speed === 'number') {
+      owl(id).trigger('refresh.owl.carousel', [event, speed]);
+    }
+    else {
+      owl(id).trigger('refresh.owl.carousel');
+    }
+  }
+
+  const replace = (data) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof data === 'string') {
+      owl(id).trigger('replace.owl.carousel', data);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
+  const add = (data, position) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof data === 'string' && typeof position === 'number') {
+      owl(id).trigger('add.owl.carousel', [data, position]);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
+  const remove = (position) => {
+    if (!owl(id)) throw new Error('OwlCarousel is not created');
+    if (typeof position === 'number') {
+      owl(id).trigger('remove.owl.carousel', position);
+      refresh();
+    }
+    else {
+      console.log('string html not found')
+    }
+  }
+
+  const Slider = (props) => {
+    const {
+      className = 'owl-carousel owl-theme',
+    } = props;
+    return <div className="main-slider">
+      <div id={id} className={className}>
+        {props.children}
+      </div>
     </div>
-  )
+  }
+
+  return {
+    next,
+    prev,
+    to,
+    destroy,
+    play,
+    stop,
+    changed,
+    change,
+    refresh,
+    replace,
+    add,
+    remove,
+    Slider,
+  };
 }
 
-ReactDOM.render(<MainSlider />, document.getElementById('root'));
+export default OwlCarousel;
