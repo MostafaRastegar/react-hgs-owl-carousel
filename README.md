@@ -30,9 +30,30 @@ for use more option please read owlcarousel docs
 ```jsx
 import React from 'react';
 import owlCarousel from 'react-hgs-owl-carousel';
-
+// optional
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 // ....
+```
 
+for use     
+    next,
+    prev,
+    to,
+    destroy,
+    play,
+    stop,
+    changed,
+    change,
+    refresh,
+    replace,
+    add,
+    remove
+events, just you import from owlCarousel(config);
+for other events you can add event to config constant;
+
+for EX:
+
+```jsx
 // id "demo" is optional
 const MainSlider = () => {
   const config = {
